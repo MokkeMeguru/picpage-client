@@ -12,6 +12,7 @@
                  [metosin/reitit-malli "0.5.10"]
 
                  [day8.re-frame/tracing "0.6.0"]
+                 [day8.re-frame/http-fx "0.2.1"]
                  [garden "1.3.10"]
                  [ns-tracker "0.4.0"]]
 

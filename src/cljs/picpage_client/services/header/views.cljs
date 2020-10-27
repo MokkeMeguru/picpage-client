@@ -39,5 +39,5 @@
           [:strong "upload picpage"]]
          [:a.button.is-primary {:href "#/settings/profile"}
           [:strong "settings"]]
-         [:a.button.is-light
+         [:a.button.is-light {:href "#/logout"}
           [:strong "logout"]]]])]]])

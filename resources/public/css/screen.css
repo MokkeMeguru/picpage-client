@@ -8,6 +8,8 @@
 
 .bd-main {
   margin-top: 2rem;
+  min-height: 100vh;
+  display: flex;
 }
 
 .bd-warn {
@@ -29,6 +31,14 @@
 .bd-warn a {
   color: white;
   text-decoration: underline;
+}
+
+.bd-header-titles {
+  margin-bottom: 3rem;
+}
+
+.titles {
+  margin-bottom: 2rem;
 }
 
 .bd-header .subtitle {

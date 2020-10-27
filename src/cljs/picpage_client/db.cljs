@@ -1,4 +1,10 @@
 (ns picpage-client.db)
 
 (def default-db
-  {:name "re-frame"})
+  {:name nil
+   :login? false
+   :login-info {}
+   :api-url ""
+   :icon-image nil
+   :pictures []
+   :picture {}})

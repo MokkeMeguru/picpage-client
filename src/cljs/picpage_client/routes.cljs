@@ -7,7 +7,16 @@
    [reitit.core :as r]
    [reitit.frontend.easy :as rfe]
    [picpage-client.events :as events]
+   [picpage-client.subs :as subs]
+
    [picpage-client.messages :as messages]
+
+   [picpage-client.services.home.views :as home-views]
+   [picpage-client.services.signup.views :as signup-views]
+   [picpage-client.services.login.views :as login-views]
+   [picpage-client.services.profile-settings.views :as profile-settings-views]
+   [picpage-client.services.upload.views :as upload-views]
+   [picpage-client.services.pictures.views :as pictures-views]
    ;; for develop
    [clojure.pprint :as pprint]))
 
@@ -15,38 +24,42 @@
   ["/"
    [""
     {:name :routes/home
-     :view "services/home/view"
+     :view home-views/home
      :link-text "Home"
      :controllers
      [{:start #(println "entering home page")
        :stop #(println "leaving home page")}]}]
    ["login"
     {:name :routes/login
-     :view "services/login/view"
+     :view login-views/login
      :link-text "login"}]
    ["logout"
     {:name :routes/logout
      :view "services/logout/view"
-     :link-text "logout"}]
+     :link-text "logout"
+     :controllers [{:start #(do
+                              (re-frame/dispatch [::events/logout])
+                              (set! (-> js/window .-location .-href) "#/"))}]}]
    ["signup"
     {:name :routes/signup
-     :view "services/signup/view"
+     :view signup-views/signup
      :link-text "signup"
      :controllers [{:start #(do (println "entering signup page"))}]}]
    ["settings/"
     {:name :routes/settings
-     :controllers [{:start #(do (println "entering settings page")
-                                (when true
+     :controllers [{:start #(do (println "entering settings page" @(re-frame/subscribe [::subs/login?]))
+                                (when-not @(re-frame/subscribe [::subs/login?])
                                   (do
                                     (re-frame/dispatch [::events/error (:login messages/error-messages)])
-                                    (set! (-> js/window .-location .-href) "/#/"))))
+                                    (set! (-> js/window .-location .-href) "#/"))))
                     :stop #(println "leaving settings page")}]}
     ["profile"
      {:name :routes/profile-settings
+      :view profile-settings-views/profile-settings
       :link-text "Profile Settings"}]]
    ["upload"
     {:name :rotues/upload
-     :view "services/upload/view"
+     :view upload-views/upload
      :link-text "upload"
      :controllers [{:start #(println "entering upload page")
                     :stop #(println "leaving upload page")}]}]
@@ -55,12 +68,13 @@
      :coercion reitit.coercion.spec/coercion
      :parameters {:path {:name string?}}
      :controllers
-     [{:start (fn [{:keys [path]}]
-                (let  [user-name (:name path)]
-                  (println "entering users page: " user-name)))}]}
+     [{:parameters {:path [:name]}
+       :start (fn [{:keys [path]}]
+                (re-frame/dispatch [::events/current-page (:name path)])
+                (println "entering users page: " (:name path)))}]}
     ["pictures"
      {:name :routes/pictures
-      :view "services/pictures/view"
+      :view pictures-views/pictures
       :link-text "Pictures"}]
     ["pictures/:id"
      {:name :routes/picture
@@ -81,3 +95,5 @@
    router
    on-navigate
    {:use-fragment true}))
+
+(r/match-by-path router "/users/sample-user/pictures")

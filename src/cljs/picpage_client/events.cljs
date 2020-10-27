@@ -39,3 +39,20 @@
  ::delete-error
  (fn [db [_]]
    (dissoc db :error)))
+
+(re-frame/reg-event-db
+ ::logout
+ (fn [db [_]]
+   (-> db
+       (assoc :login? false)
+       (assoc :login-info {}))))
+
+(re-frame/reg-event-db
+ ::api-url
+ (fn [db [_ url]]
+   (assoc db :api-url url)))
+
+(re-frame/reg-event-db
+ ::current-page
+ (fn [db [_ userid]]
+   (assoc db :current-page userid)))

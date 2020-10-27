@@ -9,7 +9,7 @@
 (defn title-panel [name]
   [:header.bd-header>div.bd-header-titles
    [:h1.title "Welcome to Picpage"]
-   [:p.subtitle.is-4 "for " (if name name "Anonymous user")]])
+   [:p.subtitle.is-4 "for " (if name name "Anonymous User")]])
 
 (defn error-panel [error-message]
   [:div.modal.is-active
@@ -23,18 +23,18 @@
 
 (defn main-panel []
   (let [name (re-frame/subscribe [::subs/name])
-        login? false
-        current-route @(re-frame/subscribe [::subs/current-route])
+        login? (re-frame/subscribe [::subs/login?])
+        current-route (re-frame/subscribe [::subs/current-route])
         error-message (re-frame/subscribe [::subs/error])]
     [:div
-     [header-views/header login?]
+     [header-views/header @login?]
      [:main.bd-main
       [:div.bd-main-container.container
        [:div.duo
         [:div.bd-lead
          (if @error-message [error-panel @error-message])
          [title-panel @name]
-         [:div (when current-route (-> current-route :data :view))]]]]]
+         [:div (when @current-route (-> @current-route :data :view))]]]]]
      footer-views/footer]))
 
 ;; (re-frame/subscribe [:current-route])

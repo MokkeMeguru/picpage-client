@@ -5,17 +5,40 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <script defer src="https://use.fontawesome.com/releases/v5.6.0/js/all.js"></script>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
+
     <link rel="stylesheet" href="css/mystyles.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
     <link href="css/screen.css" rel="stylesheet" type="text/css">
     <title>picpage-client</title>
+
   </head>
   <body>
     <noscript>
       picpage-client is a JavaScript app. Please enable JavaScript to continue.
     </noscript>
     <div id="app"></div>
+    <form name="test">
+        <p id="hoge">hello</p>
+        <input type="button" name="google" value="Googleへ" onClick="clicked()">
+    </form>
+    <script>
+     function clicked(){
+         console.log("called");
+         httpRequest = new XMLHttpRequest();
+         httpRequest.onreadystatechange = function () {
+             if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                 if (httpRequest.status === 200) {
+                     console.log(httpRequest.responseText);
+                 } else {
+                     console.log(httpRequest)
+                 }
+             }
+         };
+         httpRequest.open("post", "http://localhost:3000/api/samples/ping", true);
+         httpRequest.send();
+         
+     };
+    </script>
     <script src="js/compiled/app.js"></script>
     <script>
      if ('serviceWorker' in navigator) {
@@ -40,5 +63,6 @@
          });
      });
     </script>
+    
   </body>
 </html>

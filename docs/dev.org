@@ -67,3 +67,10 @@ $navbar-breakpoint: 760px;
 #+end_Src
 こうして `npm run css-build`  とすることで resources/css/mystyles.css が生成される
     index.html に ` <link rel="stylesheet" href="css/mystyles.css">` とすることで 生成された css を読み込める。
+* reCAPTCHA の導入 (クライアント)
+https://www.google.com/recaptcha/ からAPIのキーを取ってくる。
+html のヘッダにソースコードを貼る。
+
+#+begin_src shell
+npm install --save react-google-recaptcha
+#+end_Src
